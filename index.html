@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <script>
+      const Game = {};
+      Game.setup = undefined;
+      Game.loop = undefined;
+    </script>
+    <style>
+      #code-for-fun {
+        position: relative;
+        display: grid;
+        grid-template-columns: [left-gutter] 35% [content] 50% [right-gutter] 15%;
+        grid-template-rows: [top-margin] 150px [content-top] 50px [content] auto;
+      }
+      #code-for-fun .code-for-fun-splash-container {
+        display: grid;
+        grid-template-columns: [left] 70% [right] 30%;
+        font-family: sans-serif;
+        box-sizing: border-box;
+        color: white;
+        background-color: #1282A2;
+        grid-column-start: content;
+        grid-row-start: content-top;
+        grid-row-end: content;
+        min-height: 150px;
+        border-radius: 4px;
+        padding: 1rem;
+        box-shadow: 0px 6px 46px 0px rgba(0,0,0,0.39);
+        z-index: 1;
+      }
+      #code-for-fun .code-for-fun-splash-textbox {
+        grid-column-start: right;
+        align-self: end;
+      }
+      #code-for-fun .code-for-fun-splash-background {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        grid-column-start: left-gutter;
+        grid-column-end: right;
+        background-color: #282828;
+      }
+      #code-for-fun .code-for-fun-bg-block {
+        transition: background-color 1s;
+        position: absolute;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="./lib/style.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="code-for-fun"></div>
+    <script src="./lib/index.js"></script>
+    <script charset="utf-8">
+
+      window.WebSocket = window.WebSocket || window.MozWebSocket;
+
+      const connection = new WebSocket('ws://127.0.0.1:4077');
+      connection.onopen = () => { console.log("open connection") };
+      connection.onerror = (err) => { console.log("err!", err) };
+      connection.onmessage = message => {
+        if (message.data === "update") {
+          window.location.href = "http://localhost:4077";
+        }
+      }
+
+      Game.setup();
+
+      if (Game.loop) {
+        window.setInterval(Game.loop, 20);
+      }
+    </script>
+  </body>
+</html>
